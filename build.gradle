@@ -1,0 +1,41 @@
+plugins {
+    id 'application'
+    id 'java'
+    id 'idea'
+    id 'jacoco'
+}
+
+group 'com.vtech.vte.de'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-text', version: '1.9'
+    compile group: 'org.sonarsource.sonarqube', name: 'sonar-ws', version: '7.9.2'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.2'
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+}
+
+mainClassName = "com.vtech.vte.de.DocGenerator"
+
+task runWithJavaExec(type: JavaExec) {
+    group = "Execution"
+    description = "Run the main class with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.you.company.DocGenerator'
+}
